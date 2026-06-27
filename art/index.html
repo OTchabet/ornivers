@@ -1,0 +1,57 @@
+---
+layout: base
+title: Art
+parcours_cle: art
+---
+<section class="flux" style="padding-top:50px;">
+  <div class="wrap">
+    <div class="flux-head">
+      <h2>{{ site.parcours.art.emoji }} <span data-i18n-fr="{{ site.parcours.art.nom }}" data-i18n-en="{{ site.parcours.art.nom_en | default: site.parcours.art.nom }}">{{ site.parcours.art.nom }}</span></h2>
+      <div class="filtres">
+        <a href="{{ '/' | relative_url }}" data-i18n-fr="{{ site.data.traductions.fr.tout }}" data-i18n-en="{{ site.data.traductions.en.tout }}">{{ site.data.traductions.fr.tout }}</a>
+        <a href="{{ ('/' | append: 'etudes' | append: '/') | relative_url }}">🪐 <span data-i18n-fr="Études" data-i18n-en="Studies">Études</span></a>
+        <a href="{{ ('/' | append: 'art' | append: '/') | relative_url }}" class="actif">🎨 <span data-i18n-fr="Art" data-i18n-en="Art">Art</span></a>
+        <a href="{{ ('/' | append: 'patisserie' | append: '/') | relative_url }}">🍰 <span data-i18n-fr="Pâtisserie" data-i18n-en="Pastry">Pâtisserie</span></a>
+        <a href="{{ ('/' | append: 'lifestyle' | append: '/') | relative_url }}">🌙 <span data-i18n-fr="Life-style" data-i18n-en="Lifestyle">Life-style</span></a>
+      </div>
+    </div>
+
+    {% assign articles_parcours = site.posts | where: "parcours", "art" %}
+
+    {% for r in site.parcours.art.rubriques %}
+    {% assign rcle = r[0] %}
+    {% assign rinfos = r[1] %}
+    {% assign articles_rubrique = articles_parcours | where: "rubrique", rcle %}
+
+    <div class="bloc-rubrique" id="{{ rcle }}">
+      <h3 class="titre-rubrique" style="--c: {{ site.parcours.art.couleur }};">
+        <span data-i18n-fr="{{ rinfos.nom }}" data-i18n-en="{{ rinfos.nom_en | default: rinfos.nom }}">{{ rinfos.nom }}</span>
+      </h3>
+
+      {% if rinfos.sous_rubriques.size > 0 %}
+      <div class="puces-sous-rubriques">
+        {% for sr in rinfos.sous_rubriques %}
+        {% assign nb = articles_rubrique | where: "sous_rubrique", sr | size %}
+        <span class="puce-sr">{{ sr }}{% if nb > 0 %} ({{ nb }}){% endif %}</span>
+        {% endfor %}
+      </div>
+      {% endif %}
+
+      {% for post in articles_rubrique %}
+      <a class="article-item" href="{{ post.url | relative_url }}" style="display:grid;">
+        <div class="date">{{ post.date | date: "%d" }}<b>{{ post.date | date: "%b" }}</b></div>
+        <div>
+          {% if post.sous_rubrique %}<div class="tags">{{ post.sous_rubrique }}</div>{% endif %}
+          <h3>{{ post.title }}</h3>
+          <p>{{ post.excerpt | strip_html | truncate: 140 }}</p>
+        </div>
+      </a>
+      {% endfor %}
+      {% if articles_rubrique.size == 0 %}
+      <p class="rubrique-vide" data-i18n-fr="{{ site.data.traductions.fr.pas_encore_article }}" data-i18n-en="{{ site.data.traductions.en.pas_encore_article }}">{{ site.data.traductions.fr.pas_encore_article }}</p>
+      {% endif %}
+    </div>
+    {% endfor %}
+
+  </div>
+</section>

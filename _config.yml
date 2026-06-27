@@ -1,0 +1,111 @@
+title: Ornivers
+description: "Le journal d'Ornella : études, art, pâtisserie et art de vivre, documentés au rythme réel d'une vraie progression."
+author: Ornella
+url: "https://otchabet.github.io"
+baseurl: "/ornivers"
+
+# Hiérarchie : parcours -> rubriques -> sous-rubriques
+# Les champs *_en sont utilisés par le sélecteur de langue du site (interface bilingue,
+# les articles eux-mêmes restent en français).
+parcours:
+  etudes:
+    nom: "Études"
+    nom_en: "Studies"
+    sous_titre: "Vers la programmation, la cybersécurité, l'IA"
+    sous_titre_en: "Towards programming, cybersecurity, AI"
+    couleur: "#2B3A4A"
+    couleur_claire: "#E9EDF1"
+    emoji: "🪐"
+    statut: "En cours"
+    statut_en: "In progress"
+    rubriques:
+      remise-a-niveau:
+        nom: "Remise à niveau"
+        nom_en: "Catching up"
+        sous_rubriques: ["Maths/logique", "Anglais", "Français"]
+      programmation:
+        nom: "Programmation"
+        nom_en: "Programming"
+        sous_rubriques: []
+      cybersecurite:
+        nom: "Cybersécurité"
+        nom_en: "Cybersecurity"
+        sous_rubriques: []
+      ia:
+        nom: "Intelligence artificielle"
+        nom_en: "Artificial intelligence"
+        sous_rubriques: []
+  art:
+    nom: "Art"
+    nom_en: "Art"
+    sous_titre: "Du traditionnel vers le numérique"
+    sous_titre_en: "From traditional to digital"
+    couleur: "#7A8B6F"
+    couleur_claire: "#EBEEE8"
+    emoji: "🎨"
+    statut: "Bientôt"
+    statut_en: "Coming soon"
+    rubriques:
+      art-visuel:
+        nom: "Art visuel"
+        nom_en: "Visual art"
+        sous_rubriques: ["Crayon", "Encre", "Aquarelle", "Acrylique"]
+      art-textile:
+        nom: "Art textile"
+        nom_en: "Textile art"
+        sous_rubriques: []
+  patisserie:
+    nom: "Pâtisserie"
+    nom_en: "Pastry"
+    sous_titre: "Des bases vers la maîtrise pâtissière"
+    sous_titre_en: "From the basics to pastry mastery"
+    couleur: "#E8956B"
+    couleur_claire: "#FBE9DE"
+    emoji: "🍰"
+    statut: "À venir"
+    statut_en: "Coming up"
+    rubriques:
+      ingredients:
+        nom: "Comprendre les ingrédients de base"
+        nom_en: "Understanding basic ingredients"
+        sous_rubriques: []
+      biscuits-pains:
+        nom: "Biscuits & pains"
+        nom_en: "Cookies & bread"
+        sous_rubriques: []
+  lifestyle:
+    nom: "Life-style"
+    nom_en: "Lifestyle"
+    sous_titre: "Mouvement, détente et self-care au quotidien"
+    sous_titre_en: "Movement, relaxation and self-care, day to day"
+    couleur: "#6D28D9"
+    couleur_claire: "#EFE7FB"
+    emoji: "🌙"
+    statut: "À venir"
+    statut_en: "Coming up"
+    rubriques:
+      mouvement:
+        nom: "Mouvement"
+        nom_en: "Movement"
+        sous_rubriques: ["Yoga", "Sport"]
+      detente:
+        nom: "Détente"
+        nom_en: "Relaxation"
+        sous_rubriques: ["Méditation", "Rituels lecture/thé"]
+      self-care:
+        nom: "Self-care"
+        nom_en: "Self-care"
+        sous_rubriques: ["Soins capillaires", "Soins corporels"]
+
+markdown: kramdown
+permalink: /:categories/:title/
+
+defaults:
+  - scope:
+      path: ""
+      type: "posts"
+    values:
+      layout: "article"
+
+exclude:
+  - README.md

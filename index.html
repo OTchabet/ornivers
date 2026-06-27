@@ -1,0 +1,120 @@
+---
+layout: base
+title: Accueil
+---
+<section class="hero-cosmos">
+  <div class="wrap">
+    <span class="hero-tag" data-i18n-fr="le journal d'Ornella" data-i18n-en="Ornella's journal">le journal d'Ornella</span>
+    <h1>
+      <span data-i18n-fr="Recommencer à zéro, " data-i18n-en="Starting from zero, ">Recommencer à zéro, </span>
+      <em data-i18n-fr="en public" data-i18n-en="in public">en public</em><span data-i18n-fr=", un jour à la fois." data-i18n-en=", one day at a time.">, un jour à la fois.</span>
+    </h1>
+    <p class="lede" data-i18n-fr="Quatre orbites, un seul univers : études, art, pâtisserie et art de vivre — documentés sans filtre, au rythme réel d'une vraie progression."
+       data-i18n-en="Four orbits, one universe: studies, art, pastry and lifestyle — documented without filter, at the real pace of genuine progress.">
+       Quatre orbites, un seul univers : études, art, pâtisserie et art de vivre — documentés sans filtre, au rythme réel d'une vraie progression.
+    </p>
+
+    <div class="systeme-solaire">
+      <div class="soleil">🌟</div>
+      {% assign i = 0 %}
+      {% for p in site.parcours %}
+      {% assign cle = p[0] %}
+      {% assign infos = p[1] %}
+      {% assign i = i | plus: 1 %}
+      <div class="orbite orbite-{{ i }}">
+        <a href="{{ ('/' | append: cle | append: '/') | relative_url }}" class="planete" style="background: {{ infos.couleur }};" title="{{ infos.nom }}">
+          <span class="planete-emoji">{{ infos.emoji }}</span>
+          <span class="planete-label" data-i18n-fr="{{ infos.nom }}" data-i18n-en="{{ infos.nom_en | default: infos.nom }}">{{ infos.nom }}</span>
+        </a>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="parcours" id="parcours">
+  <div class="wrap">
+    <div class="section-label" data-i18n-fr="Les quatre parcours" data-i18n-en="The four journeys">Les quatre parcours</div>
+    <div class="parcours-grid">
+      {% for p in site.parcours %}
+      {% assign cle = p[0] %}
+      {% assign infos = p[1] %}
+      <div class="carte" style="--c: {{ infos.couleur }}; --cl: {{ infos.couleur_claire }};">
+        <div class="icone">{{ infos.emoji }}</div>
+        <span class="statut" data-i18n-fr="{{ infos.statut }}" data-i18n-en="{{ infos.statut_en | default: infos.statut }}">{{ infos.statut }}</span>
+        <h3 data-i18n-fr="{{ infos.nom }}" data-i18n-en="{{ infos.nom_en | default: infos.nom }}">{{ infos.nom }}</h3>
+        <p data-i18n-fr="{{ infos.sous_titre }}" data-i18n-en="{{ infos.sous_titre_en | default: infos.sous_titre }}">{{ infos.sous_titre }}</p>
+        <div class="barre"><div class="barre-fill" style="width:{% if cle == 'etudes' %}8{% else %}0{% endif %}%"></div></div>
+        <div class="etape-actuelle">
+          <a href="{{ ('/' | append: cle | append: '/') | relative_url }}" data-i18n-fr="Voir tous les articles →" data-i18n-en="See all articles →">Voir tous les articles →</a>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="couche-complementaire">
+  <div class="wrap">
+
+    <div class="bloc-exploration">
+      <div class="eyebrow" data-i18n-fr="🚀 EN CE MOMENT, J'EXPLORE..." data-i18n-en="🚀 RIGHT NOW, I'M EXPLORING...">🚀 EN CE MOMENT, J'EXPLORE...</div>
+      <h3 data-i18n-fr="Remise à niveau : logique &amp; maths" data-i18n-en="Catching up: logic &amp; math">Remise à niveau : logique &amp; maths</h3>
+      <div class="barre" style="background:rgba(255,255,255,0.4);">
+        <div class="barre-fill" style="width:8%; background:var(--c-etudes);">
+          <span data-i18n-fr="Niveau 1/10" data-i18n-en="Level 1/10">Niveau 1/10</span>
+        </div>
+      </div>
+      <div class="streak" data-i18n-fr="🔥 1 jour — on commence aujourd'hui" data-i18n-en="🔥 Day 1 — starting today">🔥 1 jour — on commence aujourd'hui</div>
+    </div>
+
+    <div class="grille-citation-stats">
+      <div class="bloc-citation">
+        <div class="texte" data-i18n-fr="« On n'est pas obligée de tout commencer en même temps pour tout vouloir. »"
+             data-i18n-en="“You don't have to start everything at once to want it all.”">
+             "On n'est pas obligée de tout commencer en même temps pour tout vouloir."
+        </div>
+        <div class="signature" data-i18n-fr="— Ornella, premier article du journal" data-i18n-en="— Ornella, first journal entry">— Ornella, premier article du journal</div>
+      </div>
+      <div class="bloc-stats">
+        <p>✍️ <b>{{ site.posts.size }}</b> <span data-i18n-fr="{{ site.data.traductions.fr.articles_publies }}" data-i18n-en="{{ site.data.traductions.en.articles_publies }}">{{ site.data.traductions.fr.articles_publies }}</span></p>
+        <p>🪐 <b>1</b> <span data-i18n-fr="{{ site.data.traductions.fr.parcours_en_cours }} 4" data-i18n-en="{{ site.data.traductions.en.parcours_en_cours }} 4">{{ site.data.traductions.fr.parcours_en_cours }} 4</span></p>
+        <p>😊 <span data-i18n-fr="{{ site.data.traductions.fr.humeur_dominante }}" data-i18n-en="{{ site.data.traductions.en.humeur_dominante }}">{{ site.data.traductions.fr.humeur_dominante }}</span> : <b data-i18n-fr="Motivée" data-i18n-en="Motivated">Motivée</b></p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<section class="flux">
+  <div class="wrap">
+    <div class="flux-head">
+      <h2 data-i18n-fr="{{ site.data.traductions.fr.derniers_articles }}" data-i18n-en="{{ site.data.traductions.en.derniers_articles }}">{{ site.data.traductions.fr.derniers_articles }}</h2>
+      <div class="filtres">
+        <a href="{{ '/' | relative_url }}" class="actif" data-i18n-fr="{{ site.data.traductions.fr.tout }}" data-i18n-en="{{ site.data.traductions.en.tout }}">{{ site.data.traductions.fr.tout }}</a>
+        {% for p in site.parcours %}
+        <a href="{{ ('/' | append: p[0] | append: '/') | relative_url }}">{{ p[1].emoji }} <span data-i18n-fr="{{ p[1].nom }}" data-i18n-en="{{ p[1].nom_en | default: p[1].nom }}">{{ p[1].nom }}</span></a>
+        {% endfor %}
+      </div>
+    </div>
+
+    {% for post in site.posts %}
+    <a class="article-item" href="{{ post.url | relative_url }}" style="display:grid;">
+      <div class="date">{{ post.date | date: "%d" }}<b>{{ post.date | date: "%b" }}</b></div>
+      <div>
+        <div class="pastille" style="--c: {{ site.parcours[post.parcours].couleur }};">
+          <span class="pt"></span>
+          <span data-i18n-fr="{{ site.parcours[post.parcours].nom }}" data-i18n-en="{{ site.parcours[post.parcours].nom_en | default: site.parcours[post.parcours].nom }}">{{ site.parcours[post.parcours].nom }}</span>
+        </div>
+        <h3>{{ post.title }}</h3>
+        <p>{{ post.excerpt | strip_html | truncate: 140 }}</p>
+        {% if post.tags %}<div class="tags">{{ post.tags | join: " · " }}</div>{% endif %}
+      </div>
+    </a>
+    {% endfor %}
+
+    {% if site.posts.size == 0 %}
+    <p style="color:var(--encre-faible); padding: 20px 0;" data-i18n-fr="{{ site.data.traductions.fr.aucun_article_general }}" data-i18n-en="{{ site.data.traductions.en.aucun_article_general }}">{{ site.data.traductions.fr.aucun_article_general }}</p>
+    {% endif %}
+  </div>
+</section>

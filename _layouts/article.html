@@ -1,0 +1,23 @@
+---
+layout: base
+---
+<section class="article-page">
+  <div class="wrap">
+    <div class="fil-ariane">
+      <a href="{{ ('/' | append: page.parcours | append: '/') | relative_url }}" style="color: {{ site.parcours[page.parcours].couleur }};">{{ site.parcours[page.parcours].nom }}</a>
+      {% if page.rubrique %}
+        <span class="sep">/</span>
+        <a href="{{ ('/' | append: page.parcours | append: '/#' | append: page.rubrique) | relative_url }}" style="color: {{ site.parcours[page.parcours].couleur }};">{{ site.parcours[page.parcours].rubriques[page.rubrique].nom }}</a>
+      {% endif %}
+      {% if page.sous_rubrique %}
+        <span class="sep">/</span>
+        <span class="sous-rub">{{ page.sous_rubrique | replace: "-", " " | capitalize }}</span>
+      {% endif %}
+    </div>
+    <h1>{{ page.title }}</h1>
+    <div class="meta-article">{{ page.date | date: "%-d %B %Y" }}</div>
+    <div class="contenu-article">
+      {{ content }}
+    </div>
+  </div>
+</section>

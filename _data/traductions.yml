@@ -1,0 +1,43 @@
+fr:
+  code: fr
+  nom: Français
+  drapeau: "🇫🇷"
+  accueil: Accueil
+  tout: Tout
+  voir_tous_articles: "Voir tous les articles →"
+  derniers_articles: Derniers articles
+  rechercher_placeholder: "Rechercher un article, une rubrique, un mot-clé..."
+  fermer: Fermer
+  aucun_resultat: "Aucun article trouvé pour"
+  pas_encore_article: "Pas encore d'article ici."
+  aucun_article_general: "Aucun article publié pour l'instant. Le premier arrive bientôt."
+  explore_titre: "Ornella explore..."
+  humeur_jour: "Humeur du jour"
+  en_ce_moment: "EN CE MOMENT, J'EXPLORE..."
+  articles_publies: "articles publiés"
+  parcours_en_cours: "parcours en cours sur"
+  humeur_dominante: "Humeur dominante"
+  footer_signature: "Ornivers — un site personnel, mis à jour à la main, un article à la fois."
+  selecteur_langue_label: "Langue"
+
+en:
+  code: en
+  nom: English
+  drapeau: "🇬🇧"
+  accueil: Home
+  tout: All
+  voir_tous_articles: "See all articles →"
+  derniers_articles: Latest articles
+  rechercher_placeholder: "Search an article, a topic, a keyword..."
+  fermer: Close
+  aucun_resultat: "No article found for"
+  pas_encore_article: "No article here yet."
+  aucun_article_general: "No article published yet. The first one is coming soon."
+  explore_titre: "Ornella is exploring..."
+  humeur_jour: "Mood of the day"
+  en_ce_moment: "RIGHT NOW, I'M EXPLORING..."
+  articles_publies: "articles published"
+  parcours_en_cours: "journeys in progress out of"
+  humeur_dominante: "Dominant mood"
+  footer_signature: "Ornivers — a personal site, updated by hand, one article at a time."
+  selecteur_langue_label: "Language"

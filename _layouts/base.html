@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="jour">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{% if page.title %}{{ page.title }} — {% endif %}{{ site.title }}</title>
+<meta name="description" content="{{ page.description | default: site.description }}">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,500&family=Source+Sans+3:wght@400;500;600&family=Caveat:wght@500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
+<script>
+  (function(){
+    var t = localStorage.getItem('ornivers-theme') || 'jour';
+    document.documentElement.setAttribute('data-theme', t);
+    var l = localStorage.getItem('ornivers-langue') || 'fr';
+    document.documentElement.setAttribute('data-langue', l);
+    document.documentElement.setAttribute('lang', l);
+  })();
+</script>
+</head>
+<body>
+
+<div class="ciel-etoile" id="cielEtoile"></div>
+
+<header>
+  <div class="wrap header-row">
+    <a href="{{ '/' | relative_url }}" class="logo">Orniv<span>e</span>rs</a>
+    <div class="nav-right">
+      <nav class="nav-menus">
+        {% for p in site.parcours %}
+        {% assign cle = p[0] %}
+        {% assign infos = p[1] %}
+        <div class="menu-parcours">
+          <a href="{{ ('/' | append: cle | append: '/') | relative_url }}" class="menu-parcours-titre" style="--c: {{ infos.couleur }};">
+            {{ infos.emoji }} <span data-i18n-fr="{{ infos.nom }}" data-i18n-en="{{ infos.nom_en | default: infos.nom }}">{{ infos.nom }}</span>
+          </a>
+          <div class="menu-deroulant">
+            {% for r in infos.rubriques %}
+            {% assign rcle = r[0] %}
+            {% assign rinfos = r[1] %}
+            <div class="menu-rubrique">
+              <a href="{{ ('/' | append: cle | append: '/' | append: '#' | append: rcle) | relative_url }}">
+                <span data-i18n-fr="{{ rinfos.nom }}" data-i18n-en="{{ rinfos.nom_en | default: rinfos.nom }}">{{ rinfos.nom }}</span>
+              </a>
+              {% if rinfos.sous_rubriques.size > 0 %}
+              <div class="menu-sous-rubriques">
+                {% for sr in rinfos.sous_rubriques %}
+                <a href="{{ ('/recherche/?q=' | append: sr) | relative_url }}">{{ sr }}</a>
+                {% endfor %}
+              </div>
+              {% endif %}
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+        {% endfor %}
+      </nav>
+      <div class="menu-parcours selecteur-langue">
+        <button class="bouton-icone" aria-label="{{ site.data.traductions.fr.selecteur_langue_label }} / {{ site.data.traductions.en.selecteur_langue_label }}">
+          <span class="drapeau-actuel" data-i18n-fr="🇫🇷" data-i18n-en="🇬🇧">🇫🇷</span>
+        </button>
+        <div class="menu-deroulant menu-langues">
+          {% for l in site.data.traductions %}
+          <div class="menu-rubrique langue-option" data-langue="{{ l[0] }}" onclick="choisirLangue('{{ l[0] }}')">
+            <a href="javascript:void(0)">{{ l[1].drapeau }} {{ l[1].nom }}</a>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+      <button class="bouton-icone" onclick="basculerTheme()" aria-label="Changer de thème">
+        <svg class="icone-soleil" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+        <svg class="icone-lune" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+      </button>
+      <button class="bouton-icone" onclick="ouvrirRecherche()" aria-label="Rechercher">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      </button>
+      <button class="bouton-hamburger" onclick="ouvrirMenuMobile()" aria-label="Menu">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<div class="overlay-menu-mobile" id="overlayMenuMobile">
+  <div class="panneau-menu-mobile">
+    <button class="fermer-menu-mobile" onclick="fermerMenuMobile()">✕ <span data-i18n-fr="{{ site.data.traductions.fr.fermer }}" data-i18n-en="{{ site.data.traductions.en.fermer }}">{{ site.data.traductions.fr.fermer }}</span></button>
+    <div class="langues-mobile">
+      {% for l in site.data.traductions %}
+      <button class="langue-mobile-bouton" onclick="choisirLangue('{{ l[0] }}')">{{ l[1].drapeau }} {{ l[1].nom }}</button>
+      {% endfor %}
+    </div>
+    <hr>
+    {% for p in site.parcours %}
+    {% assign cle = p[0] %}
+    {% assign infos = p[1] %}
+    <div class="menu-parcours-mobile">
+      <a href="{{ ('/' | append: cle | append: '/') | relative_url }}" style="--c: {{ infos.couleur }};">{{ infos.emoji }} {{ infos.nom }}</a>
+      {% for r in infos.rubriques %}
+      {% assign rcle = r[0] %}
+      {% assign rinfos = r[1] %}
+      <div class="menu-rubrique-mobile">
+        <a href="{{ ('/' | append: cle | append: '/#' | append: rcle) | relative_url }}">{{ rinfos.nom }}</a>
+        {% if rinfos.sous_rubriques.size > 0 %}
+        <div class="menu-sous-rubriques-mobile">
+          {% for sr in rinfos.sous_rubriques %}
+          <a href="{{ ('/recherche/?q=' | append: sr) | relative_url }}">{{ sr }}</a>
+          {% endfor %}
+        </div>
+        {% endif %}
+      </div>
+      {% endfor %}
+    </div>
+    <hr>
+    {% endfor %}
+  </div>
+</div>
+
+<div class="overlay-recherche" id="overlayRecherche">
+  <div class="boite-recherche">
+    <input type="text" id="champRecherche"
+      data-i18n-placeholder-fr="{{ site.data.traductions.fr.rechercher_placeholder }}"
+      data-i18n-placeholder-en="{{ site.data.traductions.en.rechercher_placeholder }}"
+      placeholder="{{ site.data.traductions.fr.rechercher_placeholder }}" autocomplete="off">
+    <button onclick="fermerRecherche()" class="fermer-recherche">✕</button>
+    <div id="resultatsRecherche"></div>
+  </div>
+</div>
+
+<div class="corps-site">
+  <aside class="sidebar-legere">
+    <div class="sidebar-carte">
+      <div class="sidebar-avatar">👩‍🚀</div>
+      <div class="sidebar-statut">
+        <b data-i18n-fr="{{ site.data.traductions.fr.explore_titre }}" data-i18n-en="{{ site.data.traductions.en.explore_titre }}">{{ site.data.traductions.fr.explore_titre }}</b>
+      </div>
+      <div class="sidebar-statut">
+        🪐 <span data-i18n-fr="En remise à niveau" data-i18n-en="Currently catching up">En remise à niveau</span>
+      </div>
+      <div class="sidebar-statut">
+        🌙 <span data-i18n-fr="Bientôt : Life-style" data-i18n-en="Coming soon: Life-style">Bientôt : Life-style</span>
+      </div>
+      <div class="sidebar-humeur">
+        <span data-i18n-fr="{{ site.data.traductions.fr.humeur_jour }}" data-i18n-en="{{ site.data.traductions.en.humeur_jour }}">{{ site.data.traductions.fr.humeur_jour }}</span>
+        <div class="badge-humeur">
+          <span data-i18n-fr="✨ Motivée" data-i18n-en="✨ Motivated">✨ Motivée</span>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <div class="contenu-principal">
+    {{ content }}
+
+    <footer>
+      <div class="wrap footer-row">
+        <div>
+          <div class="logo2">Ornivers</div>
+          <p data-i18n-fr="Le journal d'Ornella : études, art, pâtisserie et art de vivre, documentés au rythme réel d'une vraie progression — pas d'une mise en scène."
+             data-i18n-en="Ornella's journal: studies, art, pastry and lifestyle, documented at the real pace of genuine progress — not a performance.">
+             Le journal d'Ornella : études, art, pâtisserie et art de vivre, documentés au rythme réel d'une vraie progression — pas d'une mise en scène.
+          </p>
+        </div>
+        <nav>
+          {% for p in site.parcours %}
+          <a href="{{ ('/' | append: p[0] | append: '/') | relative_url }}">
+            <span data-i18n-fr="{{ p[1].nom }}" data-i18n-en="{{ p[1].nom_en | default: p[1].nom }}">{{ p[1].nom }}</span>
+          </a>
+          {% endfor %}
+        </nav>
+      </div>
+      <div class="wrap footer-bottom">
+        <span data-i18n-fr="{{ site.data.traductions.fr.footer_signature }}" data-i18n-en="{{ site.data.traductions.en.footer_signature }}">{{ site.data.traductions.fr.footer_signature }}</span>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<script src="{{ '/assets/js/recherche-index.js' | relative_url }}"></script>
+<script>
+const cielEtoile = document.getElementById('cielEtoile');
+for (let i = 0; i < 80; i++) {
+  const etoile = document.createElement('div');
+  etoile.className = 'etoile';
+  etoile.style.left = Math.random() * 100 + '%';
+  etoile.style.top = Math.random() * 100 + '%';
+  etoile.style.animationDelay = Math.random() * 3 + 's';
+  cielEtoile.appendChild(etoile);
+}
+
+function basculerTheme(){
+  const actuel = document.documentElement.getAttribute('data-theme');
+  const nouveau = actuel === 'nuit' ? 'jour' : 'nuit';
+  document.documentElement.setAttribute('data-theme', nouveau);
+  localStorage.setItem('ornivers-theme', nouveau);
+}
+
+function ouvrirRecherche(){
+  document.getElementById('overlayRecherche').classList.add('actif');
+  document.getElementById('champRecherche').focus();
+}
+function fermerRecherche(){
+  document.getElementById('overlayRecherche').classList.remove('actif');
+}
+function ouvrirMenuMobile(){
+  document.getElementById('overlayMenuMobile').classList.add('actif');
+}
+function fermerMenuMobile(){
+  document.getElementById('overlayMenuMobile').classList.remove('actif');
+}
+document.getElementById('overlayMenuMobile').addEventListener('click', function(e){
+  if(e.target === this) fermerMenuMobile();
+});
+document.addEventListener('keydown', function(e){
+  if(e.key === 'Escape'){ fermerRecherche(); fermerMenuMobile(); }
+  if(e.key === '/' && document.activeElement.tagName !== 'INPUT'){ e.preventDefault(); ouvrirRecherche(); }
+});
+
+// --- SYSTÈME DE LANGUE ---
+const MESSAGES_I18N = {
+  fr: {{ site.data.traductions.fr | jsonify }},
+  en: {{ site.data.traductions.en | jsonify }}
+};
+
+function appliquerLangue(langue){
+  document.documentElement.setAttribute('data-langue', langue);
+  document.documentElement.setAttribute('lang', langue);
+  document.querySelectorAll('[data-i18n-' + langue + ']').forEach(function(el){
+    el.textContent = el.getAttribute('data-i18n-' + langue);
+  });
+  document.querySelectorAll('[data-i18n-placeholder-' + langue + ']').forEach(function(el){
+    el.setAttribute('placeholder', el.getAttribute('data-i18n-placeholder-' + langue));
+  });
+  document.querySelectorAll('.drapeau-actuel').forEach(function(el){
+    el.textContent = MESSAGES_I18N[langue].drapeau;
+  });
+}
+function choisirLangue(langue){
+  localStorage.setItem('ornivers-langue', langue);
+  appliquerLangue(langue);
+}
+// Appliquer la langue sauvegardée au chargement (utile si data-i18n-fr === valeur par défaut affichée)
+appliquerLangue(document.documentElement.getAttribute('data-langue') || 'fr');
+
+document.getElementById('champRecherche').addEventListener('input', function(e){
+  const q = e.target.value.toLowerCase().trim();
+  const resDiv = document.getElementById('resultatsRecherche');
+  const langueActuelle = document.documentElement.getAttribute('data-langue') || 'fr';
+  if(q.length < 1){ resDiv.innerHTML = ''; return; }
+  const res = (window.INDEX_ARTICLES || []).filter(a =>
+    a.titre.toLowerCase().includes(q) ||
+    a.parcours.toLowerCase().includes(q) ||
+    a.rubrique.toLowerCase().includes(q) ||
+    (a.sous_rubrique && a.sous_rubrique.toLowerCase().includes(q)) ||
+    a.tags.some(t => t.toLowerCase().includes(q))
+  );
+  if(res.length === 0){
+    resDiv.innerHTML = '<p class="rien-trouve">' + MESSAGES_I18N[langueActuelle].aucun_resultat + ' "' + q + '"</p>';
+    return;
+  }
+  resDiv.innerHTML = res.map(a => `
+    <a href="${a.url}" class="resultat-item">
+      <span class="resultat-pastille" style="background:${a.couleur}"></span>
+      <div>
+        <div class="resultat-titre">${a.titre}</div>
+        <div class="resultat-chemin">${a.parcours} ${a.rubrique ? '› ' + a.rubrique : ''} ${a.sous_rubrique ? '› ' + a.sous_rubrique : ''}</div>
+      </div>
+    </a>
+  `).join('');
+});
+</script>
+</body>
+</html>
